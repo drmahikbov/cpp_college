@@ -1,6 +1,15 @@
+//
+//  main.cpp
+//  location_velos
+//
+//  Created by Dr Mahike on 01.10.20.
+//  Copyright © 2020 Dr Mahike. All rights reserved.
+//
+
 #include <iostream>
 using namespace std;
 int main()
+
 {
   cout << "Donnez l'heure de début de la location (un entier) : ";
   int debut;
@@ -14,19 +23,19 @@ int main()
    * Compléter le code à partir d'ici
    *****************************************************/
   
-int price = ( debut < 7 && fin < 7 ? fin - debut 
+int price = ( debut < 7 && fin < 7 ? fin - debut
           : debut < 7 && fin < 17 ? fin - debut + fin - 7
-          : debut < 7 && fin <= 24 ? fin - debut + 10 
-          : debut < 17 && fin < 17 ? 2*(fin - debut) 
+          : debut < 7 && fin <= 24 ? fin - debut + 10
+          : debut < 17 && fin < 17 ? 2*(fin - debut)
           : debut < 17 && fin <= 24 ? fin - debut + 17 - debut
           : debut <= 24 && fin <= 24 ? fin - debut : 0);
 
 // The value corresponds to the hourly wage, with wages 1 and 3 identical
-int onedollarrenting = ( debut < 7 && fin < 7 ? fin - debut 
+int onedollarrenting = ( debut < 7 && fin < 7 ? fin - debut
           : debut < 7 && fin >= 7 && fin < 17 ? 7 - debut
           : debut < 7 && fin >= 17 ? fin - debut - 10
           : debut < 17 && fin < 17 ? 0
-          : debut < 17 && fin >= 17 ? fin - 17 
+          : debut < 17 && fin >= 17 ? fin - 17
           : debut <= 24 && fin >= 17 ? fin - debut : 0 );
 
 int twodollarrenting = ( debut < 7 && fin < 7 ? 0
@@ -53,7 +62,7 @@ if ( debut > 24 || fin > 24 || debut < 0 || fin < 0) {
     cout << (twodollarrenting != 0 ? result2+=to_string(twodollarrenting) + " heure(s) au tarif horaire de 2 franc(s)" : "") << endl;
 
     cout << "Le montant total à payer est de " << price << " franc(s)." << endl;
-} 
+}
 
   /*******************************************
    * Ne rien modifier après cette ligne.
