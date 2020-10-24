@@ -1,15 +1,7 @@
-//
-//  main.cpp
-//  location_velos
-//
-//  Created by Dr Mahike on 01.10.20.
-//  Copyright © 2020 Dr Mahike. All rights reserved.
-//
-
 #include <iostream>
 using namespace std;
-int main()
 
+int main()
 {
   cout << "Donnez l'heure de début de la location (un entier) : ";
   int debut;
@@ -22,7 +14,7 @@ int main()
   /*****************************************************
    * Compléter le code à partir d'ici
    *****************************************************/
-  
+
 int price = ( debut < 7 && fin < 7 ? fin - debut
           : debut < 7 && fin < 17 ? fin - debut + fin - 7
           : debut < 7 && fin <= 24 ? fin - debut + 10
