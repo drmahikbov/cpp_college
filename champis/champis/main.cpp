@@ -14,37 +14,38 @@ using namespace std;
 
 int main() {
     
-    cout << "Pensez Ã  un champignon : amanite tue-mouches, pied bleu, girolle," << endl
-    << "cÃ¨pe de Bordeaux, coprin chevelu ou agaric jaunissant." << endl << endl;
+    cout << "Pensez à un champignon : amanite tue-mouches, pied bleu, girolle, cèpe de Bordeaux, coprin chevelu ou agaric jaunissant." << endl;
+    cout << "" << endl;
     
-    string q1 = "Est-ce que votre champignon a des lamelles (1 : oui, 0 : non) ? ";
-    string q2 =  "Est-ce que votre champignon vit en forÃªt (1 : oui, 0 : non) ? ";
-    string q3 =  "Est-ce que votre champignon a un chapeau convexe (1 : oui, 0 : non) ? ";
-    string q4 =  "Est-ce que votre champignon a un anneau (1 : oui, 0 : non) ? ";
+    string q_lamelles = "Est-ce que votre champignon a des lamelles (1 : oui, 0 : non) ? ";
+    string q_foret =  "Est-ce que votre champignon vit en forÃªt (1 : oui, 0 : non) ? ";
+    string q_chapeau =  "Est-ce que votre champignon a un chapeau convexe (1 : oui, 0 : non) ? ";
+    string q_anneau =  "Est-ce que votre champignon a un anneau (1 : oui, 0 : non) ? ";
     
-    string champi1 = "l'agaric jaunissant";
-    string champi2 = "l'amanite tue-mouches";
-    string champi3 = "le cÃ¨pe de Bordeaux";
-    string champi4 = "le coprin chevelu";
-    string champi5 = "la girolle";
-    string champi6 = "le pied bleu";
+    string agaric = "l'agaric jaunissant";
+    string mouches = "l'amanite tue-mouches";
+    string bordeaux = "le cÃ¨pe de Bordeaux";
+    string coprin = "le coprin chevelu";
+    string girolle = "la girolle";
+    string pied_bleu = "le pied bleu";
     
     string endsentence = "==> Le champignon auquel vous pensez est ";
     
-    bool answerone, answertwo, answerthree;
-    cout << q3 << endl;
-    cin >> answerone;
-    cout << q2 << endl;
-    cin >> answertwo;
-    cout << q4 << endl;
-    cin >> answerthree;
+    bool chapeau, foret, anneau_lamelle;
+    cout << q_chapeau << endl;
+    cin >> chapeau;
+    cout << q_foret << endl;
+    cin >> foret;
+    cout << ((chapeau and foret) ? q_anneau :
+            (not(chapeau) and foret) ? q_lamelles :
+            (chapeau and not(foret)) ? (endsentence + agaric) :
+             (not(chapeau) and not(foret)) ? (endsentence + coprin) : "smth failed boi" ) << endl;
+    cin >> anneau_lamelle;
     
-    cout << ((answerone and not(answertwo)) ? (endsentence + champi1) :
-             (answerone and answertwo and answerthree) ? (endsentence + champi2) :
-             (answerone and answertwo and not(answerthree)) ? (endsentence + champi6) :
-             (not(answerone) and not(answertwo)) ? "ur shroom aint comin from dis planet, dog" :
-             (not(answerone) and answertwo and answerthree) ? (endsentence + champi5) :
-             (not(answerone) and answertwo and not(answerthree)) ? (endsentence + champi3) :
+    cout << ((chapeau and foret and anneau_lamelle) ? (endsentence + mouches) :
+             (chapeau and foret and not(anneau_lamelle)) ? (endsentence + pied_bleu) :
+             (not(chapeau) and foret and anneau_lamelle) ? (endsentence + girolle) :
+             (not(chapeau) and foret and not(anneau_lamelle)) ? (endsentence + bordeaux) :
              "u got lost somwer, bro" );
     
     return 0;
