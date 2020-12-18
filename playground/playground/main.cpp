@@ -11,40 +11,15 @@
 #include <string>
 using namespace std;
 
-void affichage(int n, bool b)
+bool gagne(char c1, char c2, char c3, char c4)
 {
-  bool bb(b);
-
-  for (int i(0); i < (n-2); ++i) {
-    int j(0);
-    if (!bb) {
-      do {
-        if (i > j) {
-          cout << j << " ";
-          ++j;
-        } else {
-          bb = not bb;
-          ++j;
-        }
-      } while (j < n);
-
-    } else {
-      if (i > 0) {
-        cout << i << " ";
-      } else {
-        cout << b << " ";
-      }
-    }
-  }
+    return ((c1 == c3) and (c2 == c4));
 }
 
 int main ()
 {
-  int const CINQ(5);
-  bool const VRAI(true);
-  cout.setf(ios::boolalpha); // pour afficher true/false
- 
-  affichage(CINQ, VRAI);
-
-affichage (2*CINQ, not VRAI);  return 0;
+    
+    cout << ((gagne('a', 'b', 'a', 'b')) ? "YATAAA" : "mmhm") << endl;
+    return 0;
+    
 }
