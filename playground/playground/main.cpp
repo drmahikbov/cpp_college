@@ -5,21 +5,17 @@
 //  Created by Dr Mahike on 17.12.20.
 //  Copyright © 2020 Dr Mahike. All rights reserved.
 //
-
-
 #include <iostream>
 #include <string>
+#include <array>
+#include <vector>
 using namespace std;
 
-bool gagne(char c1, char c2, char c3, char c4)
-{
-    return ((c1 == c3) and (c2 == c4));
-}
+void go(string s1, string s2);
+int conv(string s);
 
-int main ()
-{
-    
-    cout << ((gagne('a', 'b', 'a', 'b')) ? "YATAAA" : "mmhm") << endl;
+int main() {
+ array<array<string, 1>, 3> s = { "a", "a", "c" };
+
     return 0;
-    
 }
