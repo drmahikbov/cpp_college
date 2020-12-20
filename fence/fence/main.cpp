@@ -16,6 +16,8 @@ struct Position {
     string row_as_string = "";
 };
 
+bool neighboor_is_zero(Carte& carte, Position p, int up, int down);
+
 bool verifie_et_modifie(Carte& carte);
 
 double longueur_cloture(Carte const& carte, double echelle);
@@ -26,9 +28,123 @@ void ajoute_unique(vector<int>& ensemble, int valeur);
 
 bool convexite_lignes(Carte& carte);
 
+void marque_composantes(Carte& carte);
+
+
+void affiche(Carte const& carte) {
+//    if (binaire(carte)) {
+        
+        for (auto row : carte) {
+            for (auto field : row) {
+                cout << field;
+            }
+            cout << endl;
+        }
+        cout << endl;
+        cout << "----" << endl;
+        cout << endl;
+//    }
+}
+
+
+//void marque_composantes(Carte& carte) {
+//
+//    // Store all the positions under current consideration
+//    vector<Position> matrix;
+//
+//
+//    // This variable is a counter that will be incremented each time we discorver a new zone
+//    int composante = 1;
+//
+//    for (int i = 0; i < carte.size(); i++) {
+//        for (int j = 0; j < carte[i].size(); j++) {
+//
+//            // If we find a 0, increment counter and store its position
+//            if (carte[i][j] == 0) {
+//                // We found a new zone
+//                composante++;
+//                Position p;
+//                p.i = i;
+//                p.j = j;
+//                matrix.push_back(p);
+//
+//                while (!matrix.empty()) {
+//                    // carte[p.i][p.j] = composante;
+//
+//                    cout << "composante is now at: " << composante << endl;
+//
+//                    Position curr_pos;
+//
+//                    curr_pos.i = matrix.back().i;
+//                    curr_pos.j = matrix.back().j;
+//                    matrix.pop_back();
+//                    if (carte[curr_pos.i][curr_pos.j] == 0) {
+//                        // Mark the zone with its number
+//                        carte[curr_pos.i][curr_pos.j] = composante;
+//                        // Check all directions for 0's and replace them with composante
+//                        // Check above
+//                        if ((curr_pos.i != 0) and neighboor_is_zero(carte, curr_pos, -1, 0) ) {
+//                            Position neighboor;
+//                            neighboor.i = curr_pos.i-1;
+//                            neighboor.j = curr_pos.j;
+//                            matrix.push_back(neighboor);
+//                        }
+//
+//                        // Check east
+//                        if ((curr_pos.j != (carte[curr_pos.i].size()-1)) and neighboor_is_zero(carte, curr_pos, 0, +1)) {
+//                            Position neighboor;
+//                            neighboor.i = curr_pos.i;
+//                            neighboor.j = curr_pos.j+1;
+//                            matrix.push_back(neighboor);
+//                            for (auto p : matrix) {
+//                                cout << "Matrix element: " << p.i << " and " << p.j << endl;
+//                            }
+//                        }
+//
+//                        // Check south
+//                        if ((curr_pos.i != (carte.size()-1)) and neighboor_is_zero(carte, curr_pos, +1, 0)) {
+//                            Position neighboor;
+//                            neighboor.i = curr_pos.i+1;
+//                            neighboor.j = curr_pos.j;
+//                            matrix.push_back(neighboor);
+//                        }
+//
+//                        // Check west
+//                        if ((curr_pos.j != 0) and neighboor_is_zero(carte, curr_pos, 0, -1)) {
+//                            Position neighboor;
+//                            neighboor.i = curr_pos.i;
+//                            neighboor.j = curr_pos.j-1;
+//                            matrix.push_back(neighboor);
+//                        }
+//
+//                    }
+//
+//                }
+//
+//            }
+//        }
+//    }
+//
+//    cout << "Changed map is:" << endl;
+//    affiche(carte);
+//}
+
+bool neighboor_is_zero(Carte& carte, Position p, int up, int down) {
+    return ((carte[p.i+up][p.j+down]) == 0);
+}
+
 
 void ajoute_unique(vector<int>& ensemble, int valeur) {
+    bool is_in_set = false;
+    for (auto num : ensemble) {
+        if (num == valeur) {
+            is_in_set = true;
+        }
+    }
     
+    if (!is_in_set) {
+        ensemble.push_back(valeur);
+    }
 }
 
 bool convexite_lignes(Carte& carte, vector<int> const& labels_bords) {
@@ -61,20 +177,6 @@ bool binaire(Carte const& carte) {
     return true;
 }
 
-void affiche(Carte const& carte) {
-//    if (binaire(carte)) {
-        
-        for (auto row : carte) {
-            for (auto field : row) {
-                cout << field;
-            }
-            cout << endl;
-        }
-        cout << endl;
-        cout << "----" << endl;
-        cout << endl;
-//    }
-}
 
 bool is_row_convex(Carte& carte) {
     for (int row = 0; row < carte.size();row++) {
@@ -339,18 +441,18 @@ int main()
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
     {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0},
-    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,0,0},
-    {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,0},
-    {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0},
+    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0},
+    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,1,1,1,1,1,1,1,0,0},
+    {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,0,0},
+    {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0,0,0,1,1,1,1,1,1,1,0,0,0,0},
+    {0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+    {0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+    {0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0},
     {0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0},
     {0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0},
@@ -366,6 +468,7 @@ int main()
     {0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
   };
 
+    marque_composantes(carte);
   cout << "Carte au départ :" << endl;
   affiche(carte);
   if (verifie_et_modifie(carte)) {
