@@ -9,13 +9,15 @@
 #include <string>
 #include <array>
 #include <vector>
+#include <sstream>
 using namespace std;
-
-void go(string s1, string s2);
-int conv(string s);
+//typedef vector<vector<vector<int>>> ThreeDVector(5,vector <int>(3,vector <int>(2,4);
+typedef vector<vector<vector<int> > > Vec;
 
 int main() {
- array<array<string, 1>, 3> s = { "a", "a", "c" };
-
+    int b = 97;
+    if ('a' == b) {
+        cout << " a est un nombre " << endl;
+    }
     return 0;
 }
